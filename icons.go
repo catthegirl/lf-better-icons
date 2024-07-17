@@ -143,34 +143,17 @@ func (im iconMap) get(f *file) iconDef {
 	var key string
 
 	switch {
-	case f.linkState == working && !im.useLinkTarget:
-		key = "ln"
-	case f.linkState == broken:
-		key = "or"
-	case f.IsDir() && f.Mode()&os.ModeSticky != 0 && f.Mode()&0o002 != 0:
-		key = "tw"
-	case f.IsDir() && f.Mode()&0o002 != 0:
-		key = "ow"
-	case f.IsDir() && f.Mode()&os.ModeSticky != 0:
-		key = "st"
-	case f.IsDir():
-		key = "di"
-	case f.Mode()&os.ModeNamedPipe != 0:
-		key = "pi"
-	case f.Mode()&os.ModeSocket != 0:
-		key = "so"
-	case f.Mode()&os.ModeCharDevice != 0:
-		key = "cd"
-	case f.Mode()&os.ModeDevice != 0:
-		key = "bd"
-	case f.Mode()&os.ModeSetuid != 0:
-		key = "su"
-	case f.Mode()&os.ModeSetgid != 0:
-		key = "sg"
-	case f.Mode()&0o111 != 0:
-		key = "ex"
+        case f.linkState == broken:
+            key = "or"
+        case f.IsDir() && f.Mode()&os.ModeSticky != 0 && f.Mode()&0o002 != 0:
+            key = "tw"
+        case f.IsDir() && f.Mode()&0o002 != 0:
+            key = "ow"
+        case f.IsDir() && f.Mode()&os.ModeSticky != 0:
+            key = "st"
+        case f.IsDir():
+            key = "di"
 	}
-
 	if val, ok := im.icons[key]; ok {
 		return val
 	}
@@ -191,9 +174,29 @@ func (im iconMap) get(f *file) iconDef {
 		return val
 	}
 
+        switch {
+        case f.linkState == working && !im.useLinkTarget:
+            key = "ln"
+        case f.Mode()&os.ModeNamedPipe != 0:
+            key = "pi"
+        case f.Mode()&os.ModeSocket != 0:
+            key = "so"
+        case f.Mode()&os.ModeCharDevice != 0:
+            key = "cd"
+        case f.Mode()&os.ModeDevice != 0:
+            key = "bd"
+        case f.Mode()&os.ModeSetuid != 0:
+            key = "su"
+        case f.Mode()&os.ModeSetgid != 0:
+            key = "sg"
+        case f.Mode()&0o111 != 0:
+            key = "ex"
+	}
+	if val, ok := im.icons[key]; ok {
+		return val
+	}
 	if val, ok := im.icons["fi"]; ok {
 		return val
 	}
-
 	return iconWithoutStyle(" ")
 }
