@@ -250,6 +250,9 @@ func (e *setExpr) eval(app *app, args []string) {
 		app.nav.position()
 		app.ui.sort()
 		app.ui.loadFile(app, true)
+	case "iconfiletypes":
+		toks := strings.Split(e.val,":")
+		gOpts.iconfiletypes = toks
 	case "ifs":
 		gOpts.ifs = e.val
 	case "info":

@@ -49,6 +49,7 @@ var gOpts struct {
 	globsearch       bool
 	hidden           bool
 	icons            bool
+	iconfiletypes    []string
 	ignorecase       bool
 	ignoredia        bool
 	incfilter        bool
